@@ -48,7 +48,7 @@ public class EquirectMeshGenerator : IScreenMeshGenerator
                 normals[index] = new Vector3(-x, -y, -z);
 
                 // Equirectangular UV mapping (linear)
-                float u = 1f - (float)seg / segments;
+                float u = (float)seg / segments;
                 float v = 1f - (float)ring / rings;
                 uvs[index] = new Vector2(u, v);
 

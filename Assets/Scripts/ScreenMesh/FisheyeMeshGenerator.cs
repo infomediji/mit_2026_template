@@ -48,9 +48,10 @@ public class FisheyeMeshGenerator : IScreenMeshGenerator
                 vertices[index] = new Vector3(x, y, z) * _radius;
                 normals[index] = new Vector3(-x, -y, -z);
 
-                // Fisheye UV mapping (radial)
-                float u = 0.5f + (sinPhi / (2f * Mathf.Sin(maxPhi))) * cosTheta;
-                float v = 0.5f + (sinPhi / (2f * Mathf.Sin(maxPhi))) * sinTheta;
+                // Equidistant fisheye UV mapping (linear with angle)
+                float r = (phi / maxPhi) * 0.60f;
+                float u = 0.5f + r * cosTheta;
+                float v = 0.5f + r * sinTheta;
                 uvs[index] = new Vector2(u, v);
 
                 index++;

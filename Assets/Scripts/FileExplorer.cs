@@ -8,6 +8,7 @@ public class FileExplorer : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Button _backButton;
+    [SerializeField] private Button _testStreamButton;
     [SerializeField] private TextMeshProUGUI _pathText;
     [SerializeField] private RectTransform _scrollContent;
     [SerializeField] private GameObject _fileEntryPrefab;
@@ -16,6 +17,8 @@ public class FileExplorer : MonoBehaviour
     [SerializeField] private string _rootPath = "";
     [SerializeField] private Color _folderColor = new Color(1f, 0.9f, 0.5f);
     [SerializeField] private Color _fileColor = Color.white;
+
+    private const string TestStreamUrl = "https://stream.mux.com/4XYzhPXzqArkFI8d1vDsScBLD69Gh1b2.m3u8";
 
     private string _currentPath;
 
@@ -29,6 +32,12 @@ public class FileExplorer : MonoBehaviour
             _backButton.onClick.AddListener(NavigateUp);
         }
 
+        // Setup test stream button
+        if (_testStreamButton != null)
+        {
+            _testStreamButton.onClick.AddListener(PlayTestStream);
+        }
+
         // Set initial path
         if (string.IsNullOrEmpty(_rootPath))
         {
@@ -36,6 +45,11 @@ public class FileExplorer : MonoBehaviour
         }
 
         NavigateTo(_rootPath);
+    }
+
+    private void PlayTestStream()
+    {
+        OnFileSelected?.Invoke(TestStreamUrl);
     }
 
     public void NavigateTo(string path)

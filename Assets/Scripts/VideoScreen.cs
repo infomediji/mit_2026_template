@@ -42,6 +42,7 @@ public class VideoScreen : MonoBehaviour
     {
         _meshFilter = GetComponent<MeshFilter>();
         GenerateMesh();
+        ApplyRotationForScreenType();
         _lastScreenType = _screenType;
     }
 
@@ -72,7 +73,7 @@ public class VideoScreen : MonoBehaviour
         switch (_screenType)
         {
             case ScreenType.Sphere:
-                transform.localRotation = Quaternion.Euler(-90f, 180f, 0f);
+                transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
                 break;
             case ScreenType.Fisheye:
                 transform.localRotation = Quaternion.Euler(-90f, 180f, 0f);

@@ -1465,10 +1465,10 @@ MonoBehaviour:
     - m_Text: Mono
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: SBS
+    - m_Text: TB
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: TB
+    - m_Text: SBS
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
@@ -11260,8 +11260,8 @@ MonoBehaviour:
   _buttonTimeBack: {fileID: 2866605049280914680}
   _buttonTimeForward: {fileID: 1973822588705982929}
   _buttonVolumeMute: {fileID: 3169764748362038375}
-  _dropdownScreenType: {fileID: 0}
-  _dropdownStereoType: {fileID: 0}
+  _dropdownScreenType: {fileID: 7519720418896044822}
+  _dropdownStereoType: {fileID: 1701644273926061416}
   _timelineTip: {fileID: 1784687529239184135}
   _timelineTipText: {fileID: 7937828283575636177}
   _thumbnailMediaPlayer: {fileID: 0}
