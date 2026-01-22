@@ -72,12 +72,27 @@ public class XRMediaPlayerController : MonoBehaviour
 
     // Timeline drag state
     private float _lastDragTime = 0f;
-    private bool _isInitialized = false;
 
     private void OnEnable()
     {
-        // Re-apply stereo setting when becoming active (after returning from file explorer)
-        if (_isInitialized)
+        if (_mediaPlayer != null)
+        {
+            _mediaPlayer.Events.AddListener(OnMediaPlayerEvent);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_mediaPlayer != null)
+        {
+            _mediaPlayer.Events.RemoveListener(OnMediaPlayerEvent);
+        }
+    }
+
+    private void OnMediaPlayerEvent(MediaPlayer mp, MediaPlayerEvent.EventType eventType, ErrorCode errorCode)
+    {
+        // Reapply stereo setting when video starts playing (AVPro resets material on new media)
+        if (eventType == MediaPlayerEvent.EventType.FirstFrameReady)
         {
             StereoTypeChanged();
         }
@@ -103,7 +118,6 @@ public class XRMediaPlayerController : MonoBehaviour
             _segmentsSeek.gameObject.SetActive(false);
 
         _lastInteractionTime = Time.time;
-        _isInitialized = true;
     }
 
     private void SetupButtonMaterials()

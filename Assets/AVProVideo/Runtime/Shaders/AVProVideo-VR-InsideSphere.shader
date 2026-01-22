@@ -61,9 +61,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 					float2 uv2 : TEXCOORD1;	// Custom uv set for right eye (left eye is in TEXCOORD0)
 				#endif
 			#endif
-			#ifdef UNITY_STEREO_INSTANCING_ENABLED
 				UNITY_VERTEX_INPUT_INSTANCE_ID
-			#endif
 			};
 
 			struct v2f
@@ -86,9 +84,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 				half4 tint : COLOR;
 			#endif
 
-			#ifdef UNITY_STEREO_INSTANCING_ENABLED
 				UNITY_VERTEX_OUTPUT_STEREO
-			#endif
 			};
 
 			uniform sampler2D _MainTex;
@@ -110,11 +106,9 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 			{
 				v2f o;
 
-			#ifdef UNITY_STEREO_INSTANCING_ENABLED
 				UNITY_SETUP_INSTANCE_ID(v);						// calculates and sets the built-n unity_StereoEyeIndex and unity_InstanceID Unity shader variables to the correct values based on which eye the GPU is currently rendering
 				UNITY_INITIALIZE_OUTPUT(v2f, o);				// initializes all v2f values to 0
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);		// tells the GPU which eye in the texture array it should render to
-			#endif
 
 				o.vertex = XFormObjectToClip(v.vertex);
 
@@ -181,9 +175,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-			#ifdef UNITY_STEREO_INSTANCING_ENABLED
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-			#endif
 
 			#if HIGH_QUALITY
 				float M_1_PI = 1.0 / 3.1415926535897932384626433832795;
