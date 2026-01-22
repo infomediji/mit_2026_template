@@ -47,3 +47,7 @@ Assets/
 └── Scenes/
     └── TemplateScene.unity     - Main scene
 ```
+
+
+## Sample videos
+Can be downloaded from [Google Drive](https://drive.google.com/drive/folders/1282hkF2uMHNMy317B8JDqZYE5t0w3CMu)
