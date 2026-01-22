@@ -87,8 +87,6 @@ Thumbs.db
 # Gradle cache (Android builds)
 .gradle/
 
-# Nuget packages
-packages/
 
 # Probuilder
 [Aa]ssets/ProBuilder Data/
