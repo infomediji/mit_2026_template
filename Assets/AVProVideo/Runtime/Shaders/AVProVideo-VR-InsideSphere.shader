@@ -220,7 +220,6 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
             	alphaPackingUV += float2(0.4 + 0.3 * unity_StereoEyeIndex, 0.8);
             	alphaPackingUV -= max(sign(alphaPackingUV - 1.0), 0.0);
             	col.a = smoothstep(0.0, 0.91, tex2D(_MainTex, alphaPackingUV).r);
-				col.r = col.a;
             #endif
 
 				UNITY_APPLY_FOG(i.fogCoord, col);
