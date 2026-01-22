@@ -94,6 +94,7 @@ public class XRMediaPlayerController : MonoBehaviour
         // Reapply stereo setting when video starts playing (AVPro resets material on new media)
         if (eventType == MediaPlayerEvent.EventType.FirstFrameReady)
         {
+            ScreenTypeChanged();
             StereoTypeChanged();
         }
     }

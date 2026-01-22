@@ -9,6 +9,7 @@
 [Mm]emoryCaptures/
 [Rr]ecordings/
 
+.utmp/
 # Asset meta data should only be ignored when using external VCS
 # [Aa]ssets/*.meta
 
