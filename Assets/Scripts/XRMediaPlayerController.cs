@@ -38,6 +38,7 @@ public class XRMediaPlayerController : MonoBehaviour
     [SerializeField] private Button _buttonTimeBack;
     [SerializeField] private Button _buttonTimeForward;
     [SerializeField] private Button _buttonVolumeMute;
+    [SerializeField] private Button _buttonPTToggle;
 
     [Header("Settings Dropdowns")]
     [SerializeField] private TMP_Dropdown _dropdownScreenType;
@@ -71,6 +72,16 @@ public class XRMediaPlayerController : MonoBehaviour
 
     // Timeline drag state
     private float _lastDragTime = 0f;
+    private bool _isInitialized = false;
+
+    private void OnEnable()
+    {
+        // Re-apply stereo setting when becoming active (after returning from file explorer)
+        if (_isInitialized)
+        {
+            StereoTypeChanged();
+        }
+    }
 
     private void Start()
     {
@@ -92,6 +103,7 @@ public class XRMediaPlayerController : MonoBehaviour
             _segmentsSeek.gameObject.SetActive(false);
 
         _lastInteractionTime = Time.time;
+        _isInitialized = true;
     }
 
     private void SetupButtonMaterials()
@@ -125,6 +137,7 @@ public class XRMediaPlayerController : MonoBehaviour
         SetupButtonXR(_buttonTimeBack);
         SetupButtonXR(_buttonTimeForward);
         SetupButtonXR(_buttonVolumeMute);
+        SetupButtonXR(_buttonPTToggle);
 
         // Setup sliders with XR interactables
         SetupTimelineSliderXR();
@@ -191,6 +204,9 @@ public class XRMediaPlayerController : MonoBehaviour
 
         if (_buttonVolumeMute != null)
             _buttonVolumeMute.onClick.AddListener(OnVolumeMuteClicked);
+
+        if (_buttonPTToggle != null)
+            _buttonPTToggle.onClick.AddListener(OnPTToggleClicked);
     }
 
     private void SetupSliderListeners()
@@ -226,6 +242,13 @@ public class XRMediaPlayerController : MonoBehaviour
     {
         RegisterInteraction();
         ToggleMute();
+    }
+
+    private void OnPTToggleClicked()
+    {
+        RegisterInteraction();
+        if (_videoScreen != null)
+            _videoScreen.SwitchPassthrough();
     }
 
     #endregion

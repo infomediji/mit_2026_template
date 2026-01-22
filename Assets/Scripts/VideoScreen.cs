@@ -33,8 +33,14 @@ public class VideoScreen : MonoBehaviour
     [SerializeField] private float _flatHeight = 2.25f;
     [SerializeField] private float _flatDistance = 3f;
 
+    [Header("Other")]
+    [SerializeField] private Renderer Renderer;
+
     private MeshFilter _meshFilter;
     private ScreenType _lastScreenType;
+
+    private const string KeywordAlphaPacking = "ALPHA_PACKING_ENABLED";
+    private bool _isPassthroughEnabled = false;
 
     public ScreenType CurrentScreenType => _screenType;
 
@@ -113,5 +119,14 @@ public class VideoScreen : MonoBehaviour
         int current = (int)_screenType;
         int next = (current + 1) % 4;
         SetScreenType((ScreenType)next);
+    }
+
+    public void SwitchPassthrough()
+    {
+        _isPassthroughEnabled = !_isPassthroughEnabled;
+        if (_isPassthroughEnabled)
+            Renderer.material.EnableKeyword(KeywordAlphaPacking);
+        else
+            Renderer.material.DisableKeyword(KeywordAlphaPacking);
     }
 }

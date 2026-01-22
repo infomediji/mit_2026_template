@@ -18,11 +18,12 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "IgnoreProjector" = "True" "Queue" = "Background" }
-		ZWrite On
-		//ZTest Always
+		Tags { "RenderType"="Transparent" "IgnoreProjector" = "True" "Queue" = "Transparent" }
+//		ZWrite On
+//		ZTest Always
 		Cull Front
 		Lighting Off
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 		{
@@ -47,6 +48,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 			#pragma multi_compile __ APPLY_GAMMA
 			#pragma multi_compile __ USE_YPCBCR
 			#pragma multi_compile __ LAYOUT_EQUIRECT180
+			#pragma multi_compile __ ALPHA_PACKING_ENABLED
 
 			struct appdata
 			{
@@ -54,7 +56,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 			#if HIGH_QUALITY
 				float3 normal  : NORMAL;
 			#else
-				float2 uv      : TEXCOORD0;	// texture coordinate			
+				float2 uv      : TEXCOORD0;	// texture coordinate
 				#if STEREO_CUSTOM_UV
 					float2 uv2 : TEXCOORD1;	// Custom uv set for right eye (left eye is in TEXCOORD0)
 				#endif
@@ -194,11 +196,11 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 				float y = 0.5 - asin(-n.y) * M_1_PI;
 
 				float2 uv = TRANSFORM_TEX(float2(x, y), _MainTex);
-				
+
 				#if LAYOUT_EQUIRECT180
 					uv.x = ((uv.x - 0.5) * 2.0) + 0.5;
 				#endif
-				
+
 				#if STEREO_TOP_BOTTOM | STEREO_LEFT_RIGHT
 					uv.xy *= i.scaleOffset.xy;
 					uv.xy += i.scaleOffset.zw;
@@ -206,15 +208,22 @@ Shader "AVProVideo/VR/InsideSphere Unlit (stereo+fog)"
 			#else
 				float2 uv = i.uv;
 			#endif
-				
+
 				half4 col = sampleTextureForEye(uv, IsStereoEyeRight());
-				
+
 			#if STEREO_DEBUG
 				col *= i.tint;
 			#endif
 
+			#if defined(ALPHA_PACKING_ENABLED)
+            	float2 alphaPackingUV = uv.xy * 0.4;
+            	alphaPackingUV += float2(0.4 + 0.3 * unity_StereoEyeIndex, 0.8);
+            	alphaPackingUV -= max(sign(alphaPackingUV - 1.0), 0.0);
+            	col.a = smoothstep(0.0, 0.91, tex2D(_MainTex, alphaPackingUV).r);
+            #endif
+
 				UNITY_APPLY_FOG(i.fogCoord, col);
-				return fixed4(col.rgb, 1.0);
+				return fixed4(col.rgba);
 			}
 			ENDCG
 		}
